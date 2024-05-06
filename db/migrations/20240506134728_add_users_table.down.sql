@@ -1,0 +1,1 @@
+DRP TABLE IF EXISTS users;
