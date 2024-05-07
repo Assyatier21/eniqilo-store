@@ -12,6 +12,7 @@ import (
 
 type UsecaseHandler interface {
 	RegisterStaff(ctx context.Context, req entity.RegisterStaffRequest) models.StandardResponseReq
+	LoginStaff(ctx context.Context, req entity.LoginStaffRequest) models.StandardResponseReq
 
 	// GetListCat(ctx context.Context, req entity.GetListCatRequest) models.StandardResponseReq
 	// CreateCat(ctx context.Context, req entity.CreateCatRequest) models.StandardResponseReq
@@ -23,8 +24,6 @@ type UsecaseHandler interface {
 	// DeleteMatchCat(ctx context.Context, req entity.DeleteMatchCatRequest) models.StandardResponseReq
 	// GetListMatchCat(ctx context.Context, req entity.GetListMatchCatRequest) models.StandardResponseReq
 	// MatchApprove(ctx context.Context, req entity.MatchApproveRequest) models.StandardResponseReq
-
-	// LoginUser(ctx context.Context, req entity.LoginUserRequest) models.StandardResponseReq
 }
 
 type usecase struct {

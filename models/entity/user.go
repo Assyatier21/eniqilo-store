@@ -22,14 +22,14 @@ type (
 		Password    string `json:"password" validate:"required,min=5,max=15"`
 	}
 
-	LoginUserRequest struct {
-		Email    string `json:"email" validate:"required,email"`
-		Password string `json:"password" validate:"required,min=5,max=15"`
+	LoginStaffRequest struct {
+		PhoneNumber string `json:"phoneNumber" validate:"required,min=10,max=16,startswith=+,validatePhoneNumber"`
+		Password    string `json:"password" validate:"required,min=5,max=15"`
 	}
 
 	UserJWT struct {
 		ID          string `json:"userId,omitempty"`
-		PhoneNumber string `json:"phone_number"`
+		PhoneNumber string `json:"phoneNumber"`
 		Name        string `json:"name"`
 		Token       string `json:"accessToken"`
 	}

@@ -10,5 +10,5 @@ func InitUserRouter(e *echo.Echo, handler api.Handler) {
 	staff := v1.Group("/staff")
 
 	staff.POST("/register", handler.RegisterStaff)
-	// user.POST("/login", handler.LoginUser)
+	staff.POST("/login", handler.LoginStaff)
 }
