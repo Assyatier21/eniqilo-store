@@ -1,11 +1,14 @@
 package api
 
 import (
-	"github.com/backend-magang/cats-social-media/internal/usecase"
+	"github.com/backend-magang/eniqilo-store/internal/usecase"
+	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 )
 
 type Handler interface {
+	RegisterStaff(c echo.Context) (err error)
+
 	// GetListCat(c echo.Context) (err error)
 	// CreateCat(c echo.Context) (err error)
 	// UpdateCat(c echo.Context) (err error)
@@ -17,7 +20,6 @@ type Handler interface {
 	// GetListMatchCat(c echo.Context) (err error)
 	// MatchApprove(c echo.Context) (err error)
 
-	// RegisterUser(c echo.Context) (err error)
 	// LoginUser(c echo.Context) (err error)
 }
 

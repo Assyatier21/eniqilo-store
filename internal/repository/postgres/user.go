@@ -1,39 +1,47 @@
 package postgres
 
-// func (r *repository) InsertUser(ctx context.Context, req entity.User) (result entity.User, err error) {
+import (
+	"context"
+	"database/sql"
 
-// 	query := `INSERT INTO users (email, name, password, created_at, updated_at)
-//         VALUES ($1, $2, $3, $4, $5)
-//         RETURNING *`
+	"github.com/backend-magang/eniqilo-store/models/entity"
+)
 
-// 	err = r.db.QueryRowxContext(ctx,
-// 		query,
-// 		req.Email,
-// 		req.Name,
-// 		req.Password,
-// 		req.CreatedAt,
-// 		req.UpdatedAt,
-// 	).StructScan(&result)
+func (r *repository) FindUserByPhoneNumber(ctx context.Context, phoneNumber string) (result entity.User, err error) {
+	query := `
+		SELECT * FROM users WHERE
+		phone_number = $1
+	`
 
-// 	if err != nil {
-// 		r.logger.Errorf("[Repository][User][InsertUser] failed to insert new user, err: %s", err.Error())
-// 		return
-// 	}
+	err = r.db.QueryRowxContext(ctx, query, phoneNumber).StructScan(&result)
+	if err != nil && err != sql.ErrNoRows {
+		r.logger.Errorf("[Repository][User][FindUserByPhoneNumber] failed to find user by phone number %s, err: %s", phoneNumber, err.Error())
+		return
+	}
 
-// 	return
-// }
+	return
+}
 
-// func (r *repository) FindUserByEmail(ctx context.Context, email string) (result entity.User, err error) {
-// 	query := `
-// 		SELECT * FROM users WHERE
-// 		email = $1
-// 	`
+func (r *repository) InsertUser(ctx context.Context, req entity.User) (result entity.User, err error) {
 
-// 	err = r.db.QueryRowxContext(ctx, query, email).StructScan(&result)
-// 	if err != nil && err != sql.ErrNoRows {
-// 		r.logger.Errorf("[Repository][User][FindByEmail] failed to find user by email %s, err: %s", email, err.Error())
-// 		return
-// 	}
+	query := `INSERT INTO users (id, name, phone_number, role, password, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING *`
 
-// 	return
-// }
+	err = r.db.QueryRowxContext(ctx,
+		query,
+		req.ID,
+		req.Name,
+		req.PhoneNumber,
+		req.Role,
+		req.Password,
+		req.CreatedAt,
+	).StructScan(&result)
+
+	if err != nil {
+		r.logger.Errorf("[Repository][User][InsertUser] failed to insert new user, err: %s", err.Error())
+		return
+	}
+
+	return
+}

@@ -8,6 +8,8 @@ const (
 	SUCCESS_LOGIN         = "successfully logged in"
 	SUCCESS_REGISTER_USER = "User registered successfully"
 
+	PHONE_NUMBER_REGISTERED = "This phone number is already registered. Please choose another one"
+
 	FAILED_GET_CATS              = "failed to get list of cats"
 	FAILED_WRONG_AGE_FORMAT      = "invalid age input format"
 	FAILED_CAT_NOT_FOUND         = "failed to get cat, data not found"
@@ -19,8 +21,6 @@ const (
 	FAILED_GET_MATCH_CATS        = "failed to get list of match cats"
 	FAILED_REQUEST_MATCH_CATS    = "failed to match cat, already have a pending request"
 	FAILED_LOGIN                 = "failed to login, email or password is wrong"
-
-	EMAIL_REGISTERED = "This email is already registered. Please choose another one"
 
 	SUCCESS_ADD_CAT    = "The cat record has been added successfully"
 	SUCCESS_UPDATE_CAT = "The cat record has been updated successfully"

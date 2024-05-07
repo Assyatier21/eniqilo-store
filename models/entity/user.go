@@ -16,8 +16,8 @@ type (
 		CreatedAt   time.Time `db:"created_at"`
 	}
 
-	CreateUserRequest struct {
-		PhoneNumber string `json:"phoneNumber" validate:"required,validatePhoneNumber"`
+	RegisterStaffRequest struct {
+		PhoneNumber string `json:"phoneNumber" validate:"required,min=10,max=16,startswith=+,validatePhoneNumber"`
 		Name        string `json:"name" validate:"required,min=5,max=50"`
 		Password    string `json:"password" validate:"required,min=5,max=15"`
 	}
@@ -28,10 +28,10 @@ type (
 	}
 
 	UserJWT struct {
-		ID    int    `json:"id,omitempty"`
-		Email string `json:"email"`
-		Name  string `json:"name"`
-		Token string `json:"accessToken"`
+		ID          string `json:"userId,omitempty"`
+		PhoneNumber string `json:"phone_number"`
+		Name        string `json:"name"`
+		Token       string `json:"accessToken"`
 	}
 
 	UserClaims struct {

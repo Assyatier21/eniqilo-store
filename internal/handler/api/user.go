@@ -1,28 +1,28 @@
 package api
 
-// import (
-// 	"net/http"
+import (
+	"net/http"
 
-// 	"github.com/backend-magang/cats-social-media/models"
-// 	"github.com/backend-magang/cats-social-media/models/entity"
-// 	"github.com/backend-magang/cats-social-media/utils/helper"
-// 	"github.com/backend-magang/cats-social-media/utils/pkg"
-// 	"github.com/labstack/echo/v4"
-// )
+	"github.com/backend-magang/eniqilo-store/models"
+	"github.com/backend-magang/eniqilo-store/models/entity"
+	"github.com/backend-magang/eniqilo-store/utils/helper"
+	"github.com/backend-magang/eniqilo-store/utils/pkg"
+	"github.com/labstack/echo/v4"
+)
 
-// func (h *handler) RegisterUser(c echo.Context) (err error) {
-// 	ctx, cancel := helper.GetContext()
-// 	defer cancel()
+func (h *handler) RegisterStaff(c echo.Context) (err error) {
+	ctx, cancel := helper.GetContext()
+	defer cancel()
 
-// 	request := entity.CreateUserRequest{}
-// 	err = pkg.BindValidate(c, &request)
-// 	if err != nil {
-// 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
-// 	}
+	request := entity.RegisterStaffRequest{}
+	err = pkg.BindValidate(c, &request)
+	if err != nil {
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
 
-// 	resp := h.usecase.RegisterUser(ctx, request)
-// 	return helper.WriteResponse(c, resp)
-// }
+	resp := h.usecase.RegisterStaff(ctx, request)
+	return helper.WriteResponse(c, resp)
+}
 
 // func (h *handler) LoginUser(c echo.Context) (err error) {
 // 	ctx, cancel := helper.GetContext()

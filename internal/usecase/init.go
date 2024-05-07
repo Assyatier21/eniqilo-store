@@ -1,12 +1,18 @@
 package usecase
 
 import (
-	"github.com/backend-magang/cats-social-media/config"
-	"github.com/backend-magang/cats-social-media/internal/repository/postgres"
+	"context"
+
+	"github.com/backend-magang/eniqilo-store/config"
+	"github.com/backend-magang/eniqilo-store/internal/repository/postgres"
+	"github.com/backend-magang/eniqilo-store/models"
+	"github.com/backend-magang/eniqilo-store/models/entity"
 	"github.com/sirupsen/logrus"
 )
 
 type UsecaseHandler interface {
+	RegisterStaff(ctx context.Context, req entity.RegisterStaffRequest) models.StandardResponseReq
+
 	// GetListCat(ctx context.Context, req entity.GetListCatRequest) models.StandardResponseReq
 	// CreateCat(ctx context.Context, req entity.CreateCatRequest) models.StandardResponseReq
 	// UpdateCat(ctx context.Context, req entity.UpdateCatRequest) models.StandardResponseReq
@@ -18,7 +24,6 @@ type UsecaseHandler interface {
 	// GetListMatchCat(ctx context.Context, req entity.GetListMatchCatRequest) models.StandardResponseReq
 	// MatchApprove(ctx context.Context, req entity.MatchApproveRequest) models.StandardResponseReq
 
-	// RegisterUser(ctx context.Context, req entity.CreateUserRequest) models.StandardResponseReq
 	// LoginUser(ctx context.Context, req entity.LoginUserRequest) models.StandardResponseReq
 }
 

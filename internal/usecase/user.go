@@ -1,61 +1,63 @@
 package usecase
 
-// import (
-// 	"context"
-// 	"database/sql"
-// 	"net/http"
-// 	"time"
+import (
+	"context"
+	"database/sql"
+	"net/http"
+	"time"
 
-// 	"github.com/backend-magang/cats-social-media/middleware"
-// 	"github.com/backend-magang/cats-social-media/models"
-// 	"github.com/backend-magang/cats-social-media/models/entity"
-// 	"github.com/backend-magang/cats-social-media/utils/constant"
-// 	"github.com/backend-magang/cats-social-media/utils/helper"
-// 	"github.com/spf13/cast"
-// 	"golang.org/x/crypto/bcrypt"
-// )
+	"github.com/backend-magang/eniqilo-store/middleware"
+	"github.com/backend-magang/eniqilo-store/models"
+	"github.com/backend-magang/eniqilo-store/models/entity"
+	"github.com/backend-magang/eniqilo-store/utils/constant"
+	"github.com/backend-magang/eniqilo-store/utils/helper"
+	"github.com/spf13/cast"
+)
 
-// func (u *usecase) RegisterUser(ctx context.Context, req entity.CreateUserRequest) models.StandardResponseReq {
-// 	var (
-// 		newUser = entity.User{}
-// 		now     = time.Now()
-// 		usr     = entity.User{}
-// 	)
+func (u *usecase) RegisterStaff(ctx context.Context, req entity.RegisterStaffRequest) models.StandardResponseReq {
+	var (
+		user    = entity.User{}
+		newUser = entity.User{}
+		now     = time.Now()
+	)
 
-// 	// Check If Phone Already Registered
-// 	user, err := u.repository.FindUserByEmail(ctx, req.Email)
-// 	if err != nil && err != sql.ErrNoRows {
-// 		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
-// 	}
+	// Get user by phone number
+	user, err := u.repository.FindUserByPhoneNumber(ctx, req.PhoneNumber)
+	if err != nil && err != sql.ErrNoRows {
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
+	}
 
-// 	if user.Email != "" {
-// 		return models.StandardResponseReq{Code: http.StatusConflict, Message: constant.EMAIL_REGISTERED, Error: nil}
-// 	}
+	// Check if phone number already registered as staff
+	if user.PhoneNumber != "" && user.Role == constant.ROLE_STAFF {
+		return models.StandardResponseReq{Code: http.StatusConflict, Message: constant.PHONE_NUMBER_REGISTERED, Error: nil}
+	}
 
-// 	newUser = entity.User{
-// 		Email:     req.Email,
-// 		Name:      req.Name,
-// 		Password:  helper.HashPassword(req.Password, cast.ToInt(u.cfg.BCryptSalt)),
-// 		CreatedAt: now,
-// 		UpdatedAt: now,
-// 	}
+	newUser = entity.User{
+		ID:          helper.NewULID(),
+		PhoneNumber: req.PhoneNumber,
+		Name:        req.Name,
+		Role:        constant.ROLE_STAFF,
+		Password:    helper.HashPassword(req.Password, cast.ToInt(u.cfg.BCryptSalt)),
+		CreatedAt:   now,
+	}
 
-// 	usr, err = u.repository.InsertUser(ctx, newUser)
-// 	if err != nil {
-// 		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
-// 	}
+	user, err = u.repository.InsertUser(ctx, newUser)
+	if err != nil {
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
+	}
 
-// 	newUser.ID = usr.ID
-// 	token, _ := middleware.GenerateToken(newUser)
+	newUser.ID = user.ID
+	token, _ := middleware.GenerateToken(newUser)
 
-// 	userJWT := entity.UserJWT{
-// 		Email: newUser.Email,
-// 		Name:  newUser.Name,
-// 		Token: token,
-// 	}
+	userJWT := entity.UserJWT{
+		ID:          newUser.ID,
+		PhoneNumber: newUser.PhoneNumber,
+		Name:        newUser.Name,
+		Token:       token,
+	}
 
-// 	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_REGISTER_USER, Data: userJWT, Error: nil}
-// }
+	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_REGISTER_USER, Data: userJWT, Error: nil}
+}
 
 // func (u *usecase) LoginUser(ctx context.Context, req entity.LoginUserRequest) models.StandardResponseReq {
 // 	var (
