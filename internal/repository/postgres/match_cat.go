@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/backend-magang/cats-social-media/models/entity"
-	"github.com/backend-magang/cats-social-media/utils/pkg"
+	"github.com/backend-magang/eniqilo-store/models/entity"
+	"github.com/backend-magang/eniqilo-store/utils/pkg"
 )
 
 func (r *repository) FindMatchByID(ctx context.Context, id int) (entity.MatchCat, error) {

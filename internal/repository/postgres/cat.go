@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/backend-magang/cats-social-media/models/entity"
+	"github.com/backend-magang/eniqilo-store/models/entity"
 )
 
 func (r *repository) GetListCat(ctx context.Context, req entity.GetListCatRequest) ([]entity.Cat, error) {

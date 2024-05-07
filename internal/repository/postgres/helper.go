@@ -3,7 +3,7 @@ package postgres
 import (
 	"strings"
 
-	"github.com/backend-magang/cats-social-media/models/entity"
+	"github.com/backend-magang/eniqilo-store/models/entity"
 	"github.com/spf13/cast"
 )
 

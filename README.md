@@ -24,8 +24,8 @@ The following are some of the updates in this latest version of the content mana
 - Clone the git repository:
 
 ```
-$ git clone https://github.com/Assyatier21/cats-social-media.git
-$ cd cats-social-media
+$ git clone https://github.com/Assyatier21/eniqilo-store.git
+$ cd eniqilo-store
 ```
 
 - Install Dependencies
@@ -68,4 +68,4 @@ please follow this [tutorial](https://techblost.com/how-to-setup-sonarqube-local
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/backend-magang/cats-social-media/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/backend-magang/eniqilo-store/blob/master/LICENSE) file for details.

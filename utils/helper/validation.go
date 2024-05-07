@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/backend-magang/cats-social-media/models"
+	"github.com/backend-magang/eniqilo-store/models"
 
-	"github.com/go-playground/validator"
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
 

@@ -3,8 +3,8 @@ package helper
 import (
 	"net/http"
 
-	"github.com/backend-magang/cats-social-media/models"
-	"github.com/backend-magang/cats-social-media/utils/constant"
+	"github.com/backend-magang/eniqilo-store/models"
+	"github.com/backend-magang/eniqilo-store/utils/constant"
 
 	"github.com/labstack/echo/v4"
 )
