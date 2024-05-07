@@ -6,16 +6,29 @@ import (
 )
 
 type Product struct {
-	ID          string       `db:"id"`
-	Name        string       `db:"name"`
-	SKU         string       `db:"sku"`
-	Category    string       `db:"category"`
-	ImageURL    string       `db:"image_url"`
-	Price       float64      `db:"price"`
-	Stock       int          `db:"stock"`
-	Location    string       `db:"location"`
-	IsAvailable bool         `db:"is_available"`
-	CreatedAt   time.Time    `db:"created_at"`
-	UpdatedAt   time.Time    `db:"updated_at"`
-	DeletedAt   sql.NullTime `db:"deleted_at"`
+	ID          string       `json:"id" db:"id"`
+	Name        string       `json:"name" db:"name"`
+	SKU         string       `json:"sku" db:"sku"`
+	Category    string       `json:"category" db:"category"`
+	ImageURL    string       `json:"image_url" db:"image_url"`
+	Price       float64      `json:"price" db:"price"`
+	Stock       int          `json:"stock" db:"stock"`
+	Location    string       `json:"location" db:"location"`
+	IsAvailable bool         `json:"is_available" db:"is_available"`
+	CreatedAt   time.Time    `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time    `json:"updated_at" db:"updated_at"`
+	DeletedAt   sql.NullTime `json:"-" db:"deleted_at"`
+}
+
+type GetListProductRequest struct {
+	ID          string `param:"id"`
+	Limit       string `param:"limit" validate:"omitempty,number"`
+	Offset      string `param:"offset" validate:"omitempty,number"`
+	Name        string `param:"name"`
+	IsAvailable string `param:"isAvaliable"`
+	Category    string `param:"category"`
+	SKU         string `param:"sku"`
+	InStock     string `param:"inStock"`
+	Price       string `param:"price"`
+	CreatedAt   string `param:"createdAt"`
 }

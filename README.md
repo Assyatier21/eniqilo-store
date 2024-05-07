@@ -68,4 +68,4 @@ please follow this [tutorial](https://techblost.com/how-to-setup-sonarqube-local
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/backend-magang/cats-social-media/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/backend-magang/eniqilo-store/blob/master/LICENSE) file for details.
