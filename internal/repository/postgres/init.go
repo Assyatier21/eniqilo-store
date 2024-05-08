@@ -16,7 +16,9 @@ type RepositoryHandler interface {
 
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) ([]entity.Product, error)
 	GetActiveProductsByIDsWithTx(ctx context.Context, ids []interface{}) ([]entity.Product, error)
+	GetActiveProductByID(ctx context.Context, id int) (entity.Product, error)
 	CheckoutProducts(ctx context.Context, req entity.CheckoutProductRequest) error
+	DeleteProduct(ctx context.Context, id string) (err error)
 }
 
 type repository struct {

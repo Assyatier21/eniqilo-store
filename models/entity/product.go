@@ -44,3 +44,7 @@ type CheckoutProductRequest struct {
 	Paid                    float64                  `json:"paid" validate:"required,min=1"`
 	Change                  float64                  `json:"change" validate:"min=0"`
 }
+
+type DeleteProductRequest struct {
+	ProductID string `param:"id" validate:"required"`
+}
