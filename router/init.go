@@ -8,4 +8,5 @@ import (
 
 func InitRouter(server *echo.Echo, handler api.Handler) {
 	InitProductRouter(server, handler)
+	InitUserRouter(server, handler)
 }

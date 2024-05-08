@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -8,12 +9,12 @@ import (
 
 type (
 	User struct {
-		ID          string    `db:"id"`
-		Name        string    `db:"name"`
-		PhoneNumber string    `db:"phone_number"`
-		Role        string    `db:"role"`
-		Password    string    `db:"password"`
-		CreatedAt   time.Time `db:"created_at"`
+		ID          string         `db:"id"`
+		Name        string         `db:"name"`
+		PhoneNumber string         `db:"phone_number"`
+		Role        string         `db:"role"`
+		Password    sql.NullString `db:"password"`
+		CreatedAt   time.Time      `db:"created_at"`
 	}
 
 	RegisterStaffRequest struct {
