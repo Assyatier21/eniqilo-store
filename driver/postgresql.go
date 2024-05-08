@@ -1,7 +1,7 @@
 package driver
 
 import (
-	cf "github.com/backend-magang/cats-social-media/config"
+	cf "github.com/backend-magang/eniqilo-store/config"
 	"github.com/jmoiron/sqlx"
 
 	_ "github.com/lib/pq"

@@ -6,11 +6,11 @@ package usecase
 // 	"net/http"
 // 	"time"
 
-// 	"github.com/backend-magang/cats-social-media/middleware"
-// 	"github.com/backend-magang/cats-social-media/models"
-// 	"github.com/backend-magang/cats-social-media/models/entity"
-// 	"github.com/backend-magang/cats-social-media/utils/constant"
-// 	"github.com/backend-magang/cats-social-media/utils/helper"
+// 	"github.com/backend-magang/eniqilo-store/middleware"
+// 	"github.com/backend-magang/eniqilo-store/models"
+// 	"github.com/backend-magang/eniqilo-store/models/entity"
+// 	"github.com/backend-magang/eniqilo-store/utils/constant"
+// 	"github.com/backend-magang/eniqilo-store/utils/helper"
 // 	"github.com/spf13/cast"
 // 	"golang.org/x/crypto/bcrypt"
 // )

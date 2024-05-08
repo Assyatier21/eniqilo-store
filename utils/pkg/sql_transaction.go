@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -41,7 +42,7 @@ func WithTransaction(ctx context.Context, trx WithTransactionDB, trxFunc func(db
 	defer func() {
 		if p := recover(); p != nil {
 			err = trx.RollbackTransaction(dbCtx)
-			fmt.Println("With transaction Error occured", p)
+			log.Println("With transaction Error occured", p)
 		} else if err != nil {
 			err = trx.RollbackTransaction(dbCtx)
 

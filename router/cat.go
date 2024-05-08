@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/backend-magang/cats-social-media/internal/handler/api"
+	"github.com/backend-magang/eniqilo-store/internal/handler/api"
 	"github.com/labstack/echo/v4"
 )
 

@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/backend-magang/cats-social-media/utils/pkg"
+	"github.com/backend-magang/eniqilo-store/utils/pkg"
 	"github.com/spf13/viper"
 )
 
