@@ -10,16 +10,7 @@ type Handler interface {
 	RegisterStaff(c echo.Context) (err error)
 	LoginStaff(c echo.Context) (err error)
 
-	// GetListCat(c echo.Context) (err error)
-	// CreateCat(c echo.Context) (err error)
-	// UpdateCat(c echo.Context) (err error)
-	// DeleteCat(c echo.Context) (err error)
-
-	// MatchCat(c echo.Context) (err error)
-	// RejectMatchCat(c echo.Context) (err error)
-	// DeleteMatchCat(c echo.Context) (err error)
-	// GetListMatchCat(c echo.Context) (err error)
-	// MatchApprove(c echo.Context) (err error)
+	GetListProduct(c echo.Context) (err error)
 }
 
 type handler struct {

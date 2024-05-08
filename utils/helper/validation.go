@@ -64,34 +64,16 @@ func IsValidSlug(s string) bool {
 	return regex.MatchString(s)
 }
 
-func BuildSortByQuery(sort_by string) string {
-	if sort_by == "title" {
-		sort_by = "title.keyword"
-	} else if sort_by == "slug" {
-		sort_by = "slug.keyword"
-	} else if sort_by == "html_content" {
-		sort_by = "html_content.keyword"
-	} else {
-		sort_by = "updated_at"
-	}
-
-	return sort_by
-}
-
-func BuildOrderByQuery(order_by string) bool {
-	var order_by_bool bool
-
-	order_by_bool = false
-	if order_by == "asc" {
-		order_by_bool = true
-	} else if order_by == "desc" {
-		order_by_bool = false
-	}
-
-	return order_by_bool
-}
-
 func IsNumeric(str string) bool {
 	_, err := strconv.Atoi(str)
 	return err == nil
+}
+
+func IsInArray(str string, arr []string) bool {
+	for _, item := range arr {
+		if item == str {
+			return true
+		}
+	}
+	return false
 }

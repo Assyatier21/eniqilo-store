@@ -14,16 +14,7 @@ type UsecaseHandler interface {
 	RegisterStaff(ctx context.Context, req entity.RegisterStaffRequest) models.StandardResponseReq
 	LoginStaff(ctx context.Context, req entity.LoginStaffRequest) models.StandardResponseReq
 
-	// GetListCat(ctx context.Context, req entity.GetListCatRequest) models.StandardResponseReq
-	// CreateCat(ctx context.Context, req entity.CreateCatRequest) models.StandardResponseReq
-	// UpdateCat(ctx context.Context, req entity.UpdateCatRequest) models.StandardResponseReq
-	// DeleteCat(ctx context.Context, req entity.DeleteCatRequest) models.StandardResponseReq
-
-	// MatchCat(ctx context.Context, req entity.MatchCatRequest) models.StandardResponseReq
-	// RejectMatchCat(ctx context.Context, req entity.UpdateMatchCatRequest) models.StandardResponseReq
-	// DeleteMatchCat(ctx context.Context, req entity.DeleteMatchCatRequest) models.StandardResponseReq
-	// GetListMatchCat(ctx context.Context, req entity.GetListMatchCatRequest) models.StandardResponseReq
-	// MatchApprove(ctx context.Context, req entity.MatchApproveRequest) models.StandardResponseReq
+	GetListProduct(ctx context.Context, req entity.GetListProductRequest) models.StandardResponseReq
 }
 
 type usecase struct {

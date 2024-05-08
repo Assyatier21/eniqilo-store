@@ -7,6 +7,5 @@ import (
 )
 
 func InitRouter(server *echo.Echo, handler api.Handler) {
-	InitCatRouter(server, handler)
-	InitUserRouter(server, handler)
+	InitProductRouter(server, handler)
 }
