@@ -9,6 +9,7 @@ import (
 	"github.com/backend-magang/eniqilo-store/middleware"
 	"github.com/backend-magang/eniqilo-store/models"
 	"github.com/backend-magang/eniqilo-store/models/entity"
+	"github.com/backend-magang/eniqilo-store/models/lib"
 	"github.com/backend-magang/eniqilo-store/utils/constant"
 	"github.com/backend-magang/eniqilo-store/utils/helper"
 	"github.com/spf13/cast"
@@ -22,28 +23,21 @@ func (u *usecase) RegisterStaff(ctx context.Context, req entity.RegisterStaffReq
 		now     = time.Now()
 	)
 
-	// Get user by phone number
-	user, err := u.repository.FindUserByPhoneNumber(ctx, req.PhoneNumber)
-	if err != nil && err != sql.ErrNoRows {
-		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
-	}
-
-	// Check if phone number already registered as staff
-	if user.PhoneNumber != "" && user.Role == constant.ROLE_STAFF {
-		return models.StandardResponseReq{Code: http.StatusConflict, Message: constant.PHONE_NUMBER_REGISTERED, Error: nil}
-	}
-
+	hashPassword := helper.HashPassword(req.Password, cast.ToInt(u.cfg.BCryptSalt))
 	newUser = entity.User{
 		ID:          helper.NewULID(),
 		PhoneNumber: req.PhoneNumber,
 		Name:        req.Name,
 		Role:        constant.ROLE_STAFF,
-		Password:    helper.HashPassword(req.Password, cast.ToInt(u.cfg.BCryptSalt)),
+		Password:    sql.NullString{String: hashPassword, Valid: true},
 		CreatedAt:   now,
 	}
 
-	user, err = u.repository.InsertUser(ctx, newUser)
+	user, err := u.repository.InsertUser(ctx, newUser)
 	if err != nil {
+		if err.Error() == lib.ErrConstraintKey.Error() {
+			return models.StandardResponseReq{Code: http.StatusConflict, Message: constant.PHONE_NUMBER_REGISTERED, Error: nil}
+		}
 		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
 	}
 
@@ -68,7 +62,6 @@ func (u *usecase) LoginStaff(ctx context.Context, req entity.LoginStaffRequest) 
 		err     error
 	)
 
-	// Get user by phone number
 	user, err = u.repository.FindUserByPhoneNumber(ctx, req.PhoneNumber)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -77,8 +70,7 @@ func (u *usecase) LoginStaff(ctx context.Context, req entity.LoginStaffRequest) 
 		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
 	}
 
-	// Validate password
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password.String), []byte(req.Password))
 	if err != nil {
 		return models.StandardResponseReq{Code: http.StatusBadRequest, Message: constant.FAILED_LOGIN}
 	}

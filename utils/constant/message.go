@@ -12,4 +12,5 @@ const (
 
 	FAILED_LOGIN        = "failed to login, email or password is wrong"
 	FAILED_GET_PRODUCTS = "failed to get list of products"
+	FAILED_GET_USER     = "failed to retrieve user"
 )

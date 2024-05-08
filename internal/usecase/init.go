@@ -15,6 +15,7 @@ type UsecaseHandler interface {
 	LoginStaff(ctx context.Context, req entity.LoginStaffRequest) models.StandardResponseReq
 
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) models.StandardResponseReq
+	CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq
 }
 
 type usecase struct {

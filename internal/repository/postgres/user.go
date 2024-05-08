@@ -22,6 +22,21 @@ func (r *repository) FindUserByPhoneNumber(ctx context.Context, phoneNumber stri
 	return
 }
 
+func (r *repository) FindUserByID(ctx context.Context, id string) (result entity.User, err error) {
+	query := `
+		SELECT * FROM users WHERE
+		id = $1
+	`
+
+	err = r.db.QueryRowxContext(ctx, query, id).StructScan(&result)
+	if err != nil && err != sql.ErrNoRows {
+		r.logger.Errorf("[Repository][User][FindUserByID] failed to find user id %s, err: %s", id, err.Error())
+		return
+	}
+
+	return
+}
+
 func (r *repository) InsertUser(ctx context.Context, req entity.User) (result entity.User, err error) {
 
 	query := `INSERT INTO users (id, name, phone_number, role, password, created_at)

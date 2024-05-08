@@ -32,3 +32,15 @@ type GetListProductRequest struct {
 	Price       string `param:"price"`
 	CreatedAt   string `param:"createdAt"`
 }
+
+type ProductCheckoutRequest struct {
+	ProductID string `json:"productId" validate:"required"`
+	Quantity  int    `json:"quantity" validate:"required,min=1"`
+}
+
+type CheckoutProductRequest struct {
+	CustomerID              string                   `json:"customerId"`
+	ProductsCheckoutRequest []ProductCheckoutRequest `json:"productDetails" validate:"min=1,dive"`
+	Paid                    float64                  `json:"paid" validate:"required,min=1"`
+	Change                  float64                  `json:"change" validate:"min=0"`
+}
