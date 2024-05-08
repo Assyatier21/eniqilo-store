@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT unique_phone_number_role UNIQUE (phone_number, role)
 );
 
-CREATE UNIQUE INDEX unique_number_idx ON users (number);
+CREATE UNIQUE INDEX unique_phone_number_role_idx ON users (phone_number, role);
