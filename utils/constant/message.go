@@ -8,5 +8,8 @@ const (
 	SUCCESS_LOGIN         = "successfully logged in"
 	SUCCESS_REGISTER_USER = "User registered successfully"
 
-	FAILED_GET_PRODUCTSS = "failed to get list of products"
+	PHONE_NUMBER_REGISTERED = "This phone number is already registered. Please choose another one"
+
+	FAILED_LOGIN        = "failed to login, email or password is wrong"
+	FAILED_GET_PRODUCTS = "failed to get list of products"
 )

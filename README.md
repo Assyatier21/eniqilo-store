@@ -24,8 +24,8 @@ The following are some of the updates in this latest version of the content mana
 - Clone the git repository:
 
 ```
-$ git clone https://github.com/Assyatier21/cats-social-media.git
-$ cd cats-social-media
+$ git clone https://github.com/Assyatier21/eniqilo-store.git
+$ cd eniqilo-store
 ```
 
 - Install Dependencies

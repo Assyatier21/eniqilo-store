@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
@@ -20,6 +21,7 @@ func SetupValidator() *validator.Validate {
 	v := validator.New()
 
 	v.RegisterValidation("validateRaces", customRaceEnum)
+	v.RegisterValidation("validatePhoneNumber", validatePhoneNumber)
 
 	return v
 }
@@ -59,4 +61,13 @@ func customRaceEnum(fl validator.FieldLevel) bool {
 		}
 	}
 	return false
+}
+
+func validatePhoneNumber(fl validator.FieldLevel) bool {
+	value := fl.Field().String()
+
+	// Regular expression to match international calling codes
+	regex := `^\+\d{1,3}[-\d]*$`
+	match, _ := regexp.MatchString(regex, value)
+	return match
 }

@@ -18,7 +18,7 @@ func (u *usecase) GetListProduct(ctx context.Context, req entity.GetListProductR
 
 	products, err := u.repository.GetListProduct(ctx, req)
 	if err != nil {
-		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED_GET_PRODUCTSS, Error: err}
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED_GET_PRODUCTS, Error: err}
 	}
 
 	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS, Data: products}

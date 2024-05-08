@@ -10,6 +10,9 @@ import (
 )
 
 type RepositoryHandler interface {
+	FindUserByPhoneNumber(ctx context.Context, phoneNumber string) (result entity.User, err error)
+	InsertUser(ctx context.Context, req entity.User) (result entity.User, err error)
+
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) ([]entity.Product, error)
 }
 

@@ -6,9 +6,9 @@ import (
 )
 
 func InitUserRouter(e *echo.Echo, handler api.Handler) {
-	// v1 := e.Group("/v1")
-	// user := v1.Group("/user")
+	v1 := e.Group("/v1")
+	staff := v1.Group("/staff")
 
-	// user.POST("/register", handler.RegisterUser)
-	// user.POST("/login", handler.LoginUser)
+	staff.POST("/register", handler.RegisterStaff)
+	staff.POST("/login", handler.LoginStaff)
 }
