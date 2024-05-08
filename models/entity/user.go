@@ -49,4 +49,15 @@ type (
 		Email     string    `json:"email"`
 		ExpiredAt time.Time `json:"expired_at"`
 	}
+
+	RegisterCustomerRequest struct {
+		PhoneNumber string `json:"phoneNumber" validate:"required,min=10,max=16,startswith=+,validatePhoneNumber"`
+		Name        string `json:"name" validate:"required,min=5,max=50"`
+	}
+
+	RegisterCustomerResponse struct {
+		ID          string `json:"userId,omitempty"`
+		PhoneNumber string `json:"phoneNumber"`
+		Name        string `json:"name"`
+	}
 )

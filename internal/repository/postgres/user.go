@@ -5,15 +5,16 @@ import (
 	"database/sql"
 
 	"github.com/backend-magang/eniqilo-store/models/entity"
+	"github.com/backend-magang/eniqilo-store/utils/constant"
 )
 
-func (r *repository) FindUserByPhoneNumber(ctx context.Context, phoneNumber string) (result entity.User, err error) {
+func (r *repository) FindStaffByPhoneNumber(ctx context.Context, phoneNumber string) (result entity.User, err error) {
 	query := `
 		SELECT * FROM users WHERE
-		phone_number = $1
+		phone_number = $1 AND role = $2
 	`
 
-	err = r.db.QueryRowxContext(ctx, query, phoneNumber).StructScan(&result)
+	err = r.db.QueryRowxContext(ctx, query, phoneNumber, constant.ROLE_STAFF).StructScan(&result)
 	if err != nil && err != sql.ErrNoRows {
 		r.logger.Errorf("[Repository][User][FindUserByPhoneNumber] failed to find user by phone number %s, err: %s", phoneNumber, err.Error())
 		return

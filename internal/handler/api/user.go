@@ -37,3 +37,17 @@ func (h *handler) LoginStaff(c echo.Context) (err error) {
 	resp := h.usecase.LoginStaff(ctx, request)
 	return helper.WriteResponse(c, resp)
 }
+
+func (h *handler) RegisterCustomer(c echo.Context) (err error) {
+	ctx, cancel := helper.GetContext()
+	defer cancel()
+
+	request := entity.RegisterCustomerRequest{}
+	err = pkg.BindValidate(c, &request)
+	if err != nil {
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
+
+	resp := h.usecase.RegisterCustomer(ctx, request)
+	return helper.WriteResponse(c, resp)
+}

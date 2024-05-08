@@ -62,7 +62,7 @@ func (u *usecase) LoginStaff(ctx context.Context, req entity.LoginStaffRequest) 
 		err     error
 	)
 
-	user, err = u.repository.FindUserByPhoneNumber(ctx, req.PhoneNumber)
+	user, err = u.repository.FindStaffByPhoneNumber(ctx, req.PhoneNumber)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return models.StandardResponseReq{Code: http.StatusNotFound, Message: constant.FAILED, Error: err}
@@ -84,4 +84,33 @@ func (u *usecase) LoginStaff(ctx context.Context, req entity.LoginStaffRequest) 
 	}
 
 	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS_LOGIN, Data: userJWT, Error: nil}
+}
+
+func (u *usecase) RegisterCustomer(ctx context.Context, req entity.RegisterCustomerRequest) models.StandardResponseReq {
+	var (
+		customer    = entity.User{}
+		newCustomer = entity.User{
+			ID:          helper.NewULID(),
+			PhoneNumber: req.PhoneNumber,
+			Name:        req.Name,
+			Role:        constant.ROLE_CUSTOMER,
+			CreatedAt:   time.Now(),
+		}
+	)
+
+	customer, err := u.repository.InsertUser(ctx, newCustomer)
+	if err != nil {
+		if err.Error() == lib.ErrConstraintKey.Error() {
+			return models.StandardResponseReq{Code: http.StatusConflict, Message: constant.PHONE_NUMBER_REGISTERED, Error: nil}
+		}
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
+	}
+
+	response := entity.RegisterCustomerResponse{
+		ID:          customer.ID,
+		PhoneNumber: customer.PhoneNumber,
+		Name:        customer.Name,
+	}
+
+	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_REGISTER_USER, Data: response, Error: nil}
 }
