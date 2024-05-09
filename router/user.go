@@ -15,4 +15,5 @@ func InitUserRouter(e *echo.Echo, handler api.Handler) {
 	staff.POST("/login", handler.LoginStaff)
 
 	customer.POST("/register", handler.RegisterCustomer)
+	customer.GET("", handler.GetListCustomer)
 }

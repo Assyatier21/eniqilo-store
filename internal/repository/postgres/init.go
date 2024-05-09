@@ -13,6 +13,7 @@ type RepositoryHandler interface {
 	FindStaffByPhoneNumber(ctx context.Context, phoneNumber string) (result entity.User, err error)
 	FindUserByID(ctx context.Context, id string) (result entity.User, err error)
 	InsertUser(ctx context.Context, req entity.User) (result entity.User, err error)
+	GetListCustomer(ctx context.Context, req entity.GetListUserRequest) ([]entity.GetListCustomerResponse, error)
 
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) ([]entity.Product, error)
 	GetActiveProductsByIDsWithTx(ctx context.Context, ids []interface{}) ([]entity.Product, error)
