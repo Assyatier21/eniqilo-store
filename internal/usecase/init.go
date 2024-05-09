@@ -15,10 +15,11 @@ type UsecaseHandler interface {
 	LoginStaff(ctx context.Context, req entity.LoginStaffRequest) models.StandardResponseReq
 
 	RegisterCustomer(ctx context.Context, req entity.RegisterCustomerRequest) models.StandardResponseReq
+	GetListCustomer(ctx context.Context, req entity.GetListUserRequest) models.StandardResponseReq
 
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) models.StandardResponseReq
 	CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq
-	DeleteProduct(ctx context.Context, req entity.DeleteProductRequest) models.StandardResponseReq 
+	DeleteProduct(ctx context.Context, req entity.DeleteProductRequest) models.StandardResponseReq
 }
 
 type usecase struct {

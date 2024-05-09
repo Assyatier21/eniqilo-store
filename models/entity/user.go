@@ -9,12 +9,12 @@ import (
 
 type (
 	User struct {
-		ID          string         `db:"id"`
-		Name        string         `db:"name"`
-		PhoneNumber string         `db:"phone_number"`
-		Role        string         `db:"role"`
-		Password    sql.NullString `db:"password"`
-		CreatedAt   time.Time      `db:"created_at"`
+		ID          string         `json:"userId,omitempty" db:"id"`
+		Name        string         `json:"name,omitempty" db:"name"`
+		PhoneNumber string         `json:"phoneNumber,omitempty" db:"phone_number"`
+		Role        string         `json:"role,omitempty" db:"role"`
+		Password    sql.NullString `json:"-" db:"password"`
+		CreatedAt   time.Time      `json:"createdAt,omitempty" db:"created_at"`
 	}
 
 	RegisterStaffRequest struct {
@@ -59,5 +59,19 @@ type (
 		ID          string `json:"userId,omitempty"`
 		PhoneNumber string `json:"phoneNumber"`
 		Name        string `json:"name"`
+	}
+
+	GetListUserRequest struct {
+		PhoneNumber string `param:"phoneNumber"`
+		Name        string `param:"name"`
+		Role        string `param:"role"`
+		Limit       string `param:"limit" validate:"omitempty,number"`
+		Offset      string `param:"offset" validate:"omitempty,number"`
+	}
+
+	GetListCustomerResponse struct {
+		ID          string `json:"userId" db:"id"`
+		Name        string `json:"name" db:"name"`
+		PhoneNumber string `json:"phoneNumber" db:"phone_number"`
 	}
 )

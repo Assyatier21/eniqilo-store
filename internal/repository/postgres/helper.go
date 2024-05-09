@@ -76,3 +76,39 @@ func buildQueryGetListProducts(req entity.GetListProductRequest) (string, []inte
 
 	return queryBuilder.String(), args
 }
+
+func buildQueryGetListUsers(req entity.GetListUserRequest, fields ...string) (string, []interface{}) {
+	var (
+		queryBuilder   strings.Builder
+		args           []interface{}
+		selectedFields string
+	)
+
+	if len(fields) == 0 {
+		selectedFields = "*"
+	} else {
+		selectedFields = strings.Join(fields, ", ")
+	}
+
+	queryBuilder.WriteString("SELECT " + selectedFields + " FROM users WHERE 1=1")
+
+	if req.PhoneNumber != "" {
+		queryBuilder.WriteString(" AND phone_number ILIKE ?")
+		args = append(args, "+"+req.PhoneNumber+"%")
+	}
+
+	if req.Name != "" {
+		queryBuilder.WriteString(" AND name ILIKE ?")
+		args = append(args, "%"+req.Name+"%")
+	}
+
+	if req.Role != "" {
+		queryBuilder.WriteString(" AND role = ?")
+		args = append(args, req.Role)
+	}
+
+	queryBuilder.WriteString(" LIMIT ? OFFSET ?")
+	args = append(args, cast.ToInt(req.Limit), cast.ToInt(req.Offset))
+
+	return queryBuilder.String(), args
+}

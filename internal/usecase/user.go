@@ -114,3 +114,16 @@ func (u *usecase) RegisterCustomer(ctx context.Context, req entity.RegisterCusto
 
 	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_REGISTER_USER, Data: response, Error: nil}
 }
+
+func (u *usecase) GetListCustomer(ctx context.Context, req entity.GetListUserRequest) models.StandardResponseReq {
+	var (
+		customers = []entity.GetListCustomerResponse{}
+	)
+
+	customers, err := u.repository.GetListCustomer(ctx, req)
+	if err != nil {
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED_GET_USER, Error: err}
+	}
+
+	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS, Data: customers}
+}
