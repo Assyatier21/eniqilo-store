@@ -61,3 +61,18 @@ func (r *repository) InsertUser(ctx context.Context, req entity.User) (result en
 
 	return
 }
+
+func (r *repository) GetListCustomer(ctx context.Context, req entity.GetListUserRequest) ([]entity.GetListCustomerResponse, error) {
+	result := []entity.GetListCustomerResponse{}
+
+	query, args := buildQueryGetListUsers(req, "id", "name", "phone_number")
+	query = r.db.Rebind(query)
+
+	err := r.db.SelectContext(ctx, &result, query, args...)
+	if err != nil {
+		r.logger.Errorf("[Repository][User][GetList] failed to query, err: %s", err.Error())
+		return result, err
+	}
+
+	return result, err
+}
