@@ -3,12 +3,15 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"strings"
 	"time"
 
 	"github.com/backend-magang/eniqilo-store/models/entity"
 	"github.com/backend-magang/eniqilo-store/models/lib"
+	"github.com/backend-magang/eniqilo-store/utils/helper"
 	"github.com/backend-magang/eniqilo-store/utils/pkg"
+	"github.com/spf13/cast"
 )
 
 func (r *repository) GetListProduct(ctx context.Context, req entity.GetListProductRequest) ([]entity.Product, error) {
@@ -109,7 +112,18 @@ func (r *repository) CheckoutProducts(ctx context.Context, req entity.CheckoutPr
 		return lib.ErrWrongChange
 	}
 
-	return nil
+	productsJSON, _ := json.Marshal(req.ProductsCheckoutRequest)
+	transaction := entity.TransactionDB{
+		ID:             helper.NewULID(),
+		CustomerID:     req.CustomerID,
+		ProductDetails: cast.ToString(productsJSON),
+		Paid:           req.Paid,
+		Change:         req.Change,
+	}
+
+	err = r.InsertTransaction(ctx, transaction)
+
+	return err
 }
 
 func (r *repository) DeleteProduct(ctx context.Context, id string) (err error) {

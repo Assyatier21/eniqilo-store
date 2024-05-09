@@ -15,6 +15,8 @@ type Handler interface {
 	GetListProduct(c echo.Context) (err error)
 	CheckoutProduct(c echo.Context) (err error)
 	DeleteProduct(c echo.Context) (err error)
+
+	GetListTransaction(c echo.Context) (err error)
 }
 
 type handler struct {
