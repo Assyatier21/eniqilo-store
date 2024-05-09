@@ -18,6 +18,7 @@ type UsecaseHandler interface {
 
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) models.StandardResponseReq
 	CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq
+	DeleteProduct(ctx context.Context, req entity.DeleteProductRequest) models.StandardResponseReq 
 }
 
 type usecase struct {

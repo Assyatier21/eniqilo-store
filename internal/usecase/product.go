@@ -55,3 +55,15 @@ func (u *usecase) CheckoutProduct(ctx context.Context, req entity.CheckoutProduc
 
 	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS, Data: nil}
 }
+
+func (u *usecase) DeleteProduct(ctx context.Context, req entity.DeleteProductRequest) models.StandardResponseReq {
+	err := u.repository.DeleteProduct(ctx, req.ProductID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.StandardResponseReq{Code: http.StatusNotFound, Message: constant.FAILED_PRODUCT_NOT_FOUND, Error: err}
+		}
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
+	}
+
+	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS}
+}
