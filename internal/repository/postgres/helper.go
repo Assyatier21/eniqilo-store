@@ -107,6 +107,7 @@ func buildQueryGetListUsers(req entity.GetListUserRequest, fields ...string) (st
 		args = append(args, req.Role)
 	}
 
+	queryBuilder.WriteString(" ORDER BY created_at DESC")
 	queryBuilder.WriteString(" LIMIT ? OFFSET ?")
 	args = append(args, cast.ToInt(req.Limit), cast.ToInt(req.Offset))
 
