@@ -11,6 +11,7 @@ func InitProductRouter(e *echo.Echo, handler api.Handler) {
 	product := v1.Group("/product", md.TokenValidationMiddleware())
 
 	product.GET("", handler.GetListProduct)
+	product.GET("/checkout/history", handler.GetListTransaction)
 	product.POST("/checkout", handler.CheckoutProduct)
 	product.DELETE("/:id", handler.DeleteProduct)
 

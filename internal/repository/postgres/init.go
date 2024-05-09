@@ -20,6 +20,9 @@ type RepositoryHandler interface {
 	GetActiveProductByID(ctx context.Context, id int) (entity.Product, error)
 	CheckoutProducts(ctx context.Context, req entity.CheckoutProductRequest) error
 	DeleteProduct(ctx context.Context, id string) (err error)
+
+	InsertTransaction(ctx context.Context, req entity.TransactionDB) error
+	GetListTransaction(ctx context.Context, req entity.GetListTransactionRequest) ([]entity.TransactionDB, error)
 }
 
 type repository struct {

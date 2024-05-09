@@ -77,6 +77,27 @@ func buildQueryGetListProducts(req entity.GetListProductRequest) (string, []inte
 	return queryBuilder.String(), args
 }
 
+func buildQueryGetListTransactions(req entity.GetListTransactionRequest) (string, []interface{}) {
+	var (
+		queryBuilder strings.Builder
+		args         []interface{}
+	)
+
+	queryBuilder.WriteString("SELECT * FROM transactions WHERE 1=1")
+
+	if req.CustomerID != "" {
+		queryBuilder.WriteString(" AND customer_id = ?")
+		args = append(args, req.CustomerID)
+	}
+
+	queryBuilder.WriteString(" ORDER BY created_at " + strings.ToUpper(req.CreatedAt))
+	queryBuilder.WriteString(" LIMIT ? OFFSET ?")
+
+	args = append(args, cast.ToInt(req.Limit), cast.ToInt(req.Offset))
+
+	return queryBuilder.String(), args
+}
+
 func buildQueryGetListUsers(req entity.GetListUserRequest, fields ...string) (string, []interface{}) {
 	var (
 		queryBuilder   strings.Builder
