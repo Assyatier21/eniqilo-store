@@ -73,7 +73,7 @@ func (u *usecase) UpdateProduct(ctx context.Context, req entity.UpdateProductReq
 		Notes:       req.Notes,
 		ImageURL:    req.ImageURL,
 		Price:       req.Price,
-		Stock:       req.Stock,
+		Stock:       *req.Stock,
 		Location:    req.Location,
 		IsAvailable: cast.ToBool(req.IsAvailable),
 		CreatedAt:   now,
@@ -88,12 +88,7 @@ func (u *usecase) UpdateProduct(ctx context.Context, req entity.UpdateProductReq
 		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
 	}
 
-	resp := entity.UpdateProductResponse{
-		ID:        cast.ToString(product.ID),
-		CreatedAt: product.CreatedAt,
-	}
-
-	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_UPDATE_PRODUCT, Data: resp, Error: nil}
+	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS_UPDATE_PRODUCT, Data: nil, Error: nil}
 }
 func (u *usecase) CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq {
 	_, err := u.repository.FindUserByID(ctx, req.CustomerID)

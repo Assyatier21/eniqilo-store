@@ -100,14 +100,12 @@ func (h *handler) UpdateProduct(c echo.Context) (err error) {
 	defer cancel()
 
 	request := entity.UpdateProductRequest{}
-	fmt.Println("PRINT REQUEST HANDLER/API", request)
 	err = pkg.BindValidate(c, &request)
 	if err != nil {
-		fmt.Println("ERROR BIND: ", err)
 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
 	}
 
-	if request.IsAvailable == nil {
+	if request.IsAvailable == nil || request.Stock == nil {
 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
 	}
 

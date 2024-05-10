@@ -61,9 +61,18 @@ func (r *repository) InsertProduct(ctx context.Context, req entity.Product) (res
 }
 
 func (r *repository) UpdateProduct(ctx context.Context, req entity.Product) (result entity.Product, err error) {
-	query := `UPDATE products 
-			SET name = $1, sku = $2, category = $3, notes = $4, image_url = $5, price = $6, stock = $7, location = $8, is_available = $9, updated_at = $10  
-			WHERE id = $11 RETURNING *`
+	query := `UPDATE products SET 
+		name = $1, 
+		sku = $2, 
+		category = $3, 
+		notes = $4, 
+		image_url = $5, 
+		price = $6, 
+		stock = $7, 
+		location = $8, 
+		is_available = $9, 
+		updated_at = $10  
+	WHERE id = $11 RETURNING *`
 
 	err = r.db.QueryRowxContext(ctx,
 		query,
@@ -79,7 +88,6 @@ func (r *repository) UpdateProduct(ctx context.Context, req entity.Product) (res
 		req.UpdatedAt,
 		req.ID,
 	).StructScan(&result)
-	fmt.Println("PRINT REQUEST REPOSITORY/POSTGRES", req)
 	if err != nil {
 		r.logger.Errorf("[Repository][Product][UpdateProduct] failed to update product, err: %s", err.Error())
 		return
