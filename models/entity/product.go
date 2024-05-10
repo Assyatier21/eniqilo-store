@@ -37,7 +37,7 @@ type CreateProductRequest struct {
 	ID       string
 	Name     string  `json:"name" validate:"required,min=1,max=30"`
 	SKU      string  `json:"sku" validate:"required,min=1,max=30"`
-	Category string  `json:"category" validate:"required,validateProductCategoryEnum"`
+	Category string  `json:"category" validate:"required,oneof=Clothing Accessories Footwear Beverages"`
 	ImageURL string  `json:"imageUrl" validate:"required,url"`
 	Notes    string  `json:"notes" validate:"required,min=0,max=200"`
 	Price    float64 `json:"price" validate:"required,min=1"`

@@ -86,6 +86,11 @@ func (h *handler) CreateProduct(c echo.Context) (err error) {
 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
 	}
 
+	err = pkg.BindValidate(c, &request)
+	if err != nil {
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
+
 	resp := h.usecase.CreateProduct(ctx, request)
 	return helper.WriteResponse(c, resp)
 }

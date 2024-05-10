@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -36,7 +35,6 @@ func (u *usecase) CreateProduct(ctx context.Context, req entity.CreateProductReq
 	now := time.Now()
 
 	newProduct := entity.Product{
-
 		ID:          helper.NewULID(),
 		Name:        req.Name,
 		SKU:         req.SKU,
@@ -50,7 +48,6 @@ func (u *usecase) CreateProduct(ctx context.Context, req entity.CreateProductReq
 		UpdatedAt:   now,
 	}
 
-	fmt.Println(req)
 	product, err := u.repository.InsertProduct(ctx, newProduct)
 	if err != nil {
 		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
