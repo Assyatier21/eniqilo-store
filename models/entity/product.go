@@ -10,13 +10,14 @@ type Product struct {
 	Name        string       `json:"name" db:"name"`
 	SKU         string       `json:"sku" db:"sku"`
 	Category    string       `json:"category" db:"category"`
-	ImageURL    string       `json:"image_url" db:"image_url"`
+	ImageURL    string       `json:"imageUrl" db:"image_url"`
+	Notes       string       `json:"notes" db:"notes"`
 	Price       float64      `json:"price" db:"price"`
 	Stock       int          `json:"stock" db:"stock"`
 	Location    string       `json:"location" db:"location"`
-	IsAvailable bool         `json:"is_available" db:"is_available"`
-	CreatedAt   time.Time    `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time    `json:"updated_at" db:"updated_at"`
+	IsAvailable bool         `json:"isAvailable" db:"is_available"`
+	CreatedAt   time.Time    `json:"createdAt" db:"created_at"`
+	UpdatedAt   time.Time    `json:"-" db:"updated_at"`
 	DeletedAt   sql.NullTime `json:"-" db:"deleted_at"`
 }
 
@@ -34,15 +35,16 @@ type GetListProductRequest struct {
 }
 
 type CreateProductRequest struct {
-	ID       string
-	Name     string  `json:"name" validate:"required,min=1,max=30"`
-	SKU      string  `json:"sku" validate:"required,min=1,max=30"`
-	Category string  `json:"category" validate:"required,oneof=Clothing Accessories Footwear Beverages"`
-	ImageURL string  `json:"imageUrl" validate:"required,url"`
-	Notes    string  `json:"notes" validate:"required,min=0,max=200"`
-	Price    float64 `json:"price" validate:"required,min=1"`
-	Stock    int     `json:"stock" validate:"required,min=0,max=100000"`
-	Location string  `json:"location" validate:"required,min=0,max=200"`
+	ID          string
+	Name        string  `json:"name" validate:"required,min=1,max=30"`
+	SKU         string  `json:"sku" validate:"required,min=1,max=30"`
+	Category    string  `json:"category" validate:"required,oneof=Clothing Accessories Footwear Beverages"`
+	ImageURL    string  `json:"imageUrl" validate:"required,url"`
+	Notes       string  `json:"notes" validate:"required,min=1,max=200"`
+	Price       float64 `json:"price" validate:"required,min=1"`
+	Stock       int     `json:"stock" validate:"required,min=0,max=100000"`
+	Location    string  `json:"location" validate:"required,min=1,max=200"`
+	IsAvailable bool    `json:"isAvailable"`
 }
 
 type CreateProductResponse struct {

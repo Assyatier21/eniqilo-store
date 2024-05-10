@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS products (
     sku VARCHAR(30),
     category VARCHAR(50),
     image_url VARCHAR(255),
+    notes VARCHAR(200),
     price FLOAT,
     stock INT,
     location VARCHAR(200),

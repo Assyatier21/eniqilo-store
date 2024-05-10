@@ -34,21 +34,22 @@ func (u *usecase) GetListProduct(ctx context.Context, req entity.GetListProductR
 func (u *usecase) CreateProduct(ctx context.Context, req entity.CreateProductRequest) models.StandardResponseReq {
 	now := time.Now()
 
-	newProduct := entity.Product{
+	product := entity.Product{
 		ID:          helper.NewULID(),
 		Name:        req.Name,
 		SKU:         req.SKU,
 		Category:    req.Category,
+		Notes:       req.Notes,
 		ImageURL:    req.ImageURL,
 		Price:       req.Price,
 		Stock:       req.Stock,
 		Location:    req.Location,
-		IsAvailable: true,
+		IsAvailable: cast.ToBool(req.IsAvailable),
 		CreatedAt:   now,
 		UpdatedAt:   now,
 	}
 
-	product, err := u.repository.InsertProduct(ctx, newProduct)
+	_, err := u.repository.InsertProduct(ctx, product)
 	if err != nil {
 		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
 	}

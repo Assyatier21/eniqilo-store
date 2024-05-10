@@ -30,8 +30,8 @@ func (r *repository) GetListProduct(ctx context.Context, req entity.GetListProdu
 }
 
 func (r *repository) InsertProduct(ctx context.Context, req entity.Product) (result entity.Product, err error) {
-	query := `INSERT INTO products (id, name, sku, category, image_url, price, stock, location, is_available, created_at, updated_at, deleted_at) 
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+	query := `INSERT INTO products (id, name, sku, category, image_url, notes, price, stock, location, is_available, created_at, updated_at, deleted_at) 
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
 		RETURNING *`
 
 	err = r.db.QueryRowxContext(ctx,
@@ -41,6 +41,7 @@ func (r *repository) InsertProduct(ctx context.Context, req entity.Product) (res
 		req.SKU,
 		req.Category,
 		req.ImageURL,
+		req.Notes,
 		req.Price,
 		req.Stock,
 		req.Location,
