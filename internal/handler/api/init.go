@@ -13,6 +13,7 @@ type Handler interface {
 	RegisterCustomer(c echo.Context) (err error)
 	GetListCustomer(c echo.Context) (err error)
 
+	CreateProduct(c echo.Context) (err error)
 	GetListProduct(c echo.Context) (err error)
 	GetListProductCustomer(c echo.Context) (err error)
 	CheckoutProduct(c echo.Context) (err error)

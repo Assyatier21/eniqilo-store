@@ -20,7 +20,7 @@ func (cv *DataValidator) Validate(i interface{}) error {
 func SetupValidator() *validator.Validate {
 	v := validator.New()
 
-	v.RegisterValidation("validateRaces", customRaceEnum)
+	v.RegisterValidation("validateCategory", customProductCategoryEnum)
 	v.RegisterValidation("validatePhoneNumber", validatePhoneNumber)
 
 	return v
@@ -40,18 +40,12 @@ func BindValidate(c echo.Context, req interface{}) (err error) {
 	return
 }
 
-func customRaceEnum(fl validator.FieldLevel) bool {
+func customProductCategoryEnum(fl validator.FieldLevel) bool {
 	allowedValues := []string{
-		"Persian",
-		"Maine Coon",
-		"Siamese",
-		"Ragdoll",
-		"Bengal",
-		"Sphynx",
-		"British Shorthair",
-		"Abyssinian",
-		"Scottish Fold",
-		"Birman",
+		"Clothing",
+		"Accessories",
+		"Footwear",
+		"Beverages",
 	}
 
 	value := fl.Field().String()

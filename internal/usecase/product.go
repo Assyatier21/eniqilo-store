@@ -4,13 +4,17 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/backend-magang/eniqilo-store/models"
 	"github.com/backend-magang/eniqilo-store/models/entity"
 	"github.com/backend-magang/eniqilo-store/models/lib"
 	"github.com/backend-magang/eniqilo-store/utils/constant"
+	"github.com/backend-magang/eniqilo-store/utils/helper"
 	"github.com/backend-magang/eniqilo-store/utils/pkg"
+	"github.com/spf13/cast"
 )
 
 func (u *usecase) GetListProduct(ctx context.Context, req entity.GetListProductRequest) models.StandardResponseReq {
@@ -26,6 +30,38 @@ func (u *usecase) GetListProduct(ctx context.Context, req entity.GetListProductR
 	}
 
 	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS, Data: products}
+}
+
+func (u *usecase) CreateProduct(ctx context.Context, req entity.CreateProductRequest) models.StandardResponseReq {
+	now := time.Now()
+
+	newProduct := entity.Product{
+
+		ID:          helper.NewULID(),
+		Name:        req.Name,
+		SKU:         req.SKU,
+		Category:    req.Category,
+		ImageURL:    req.ImageURL,
+		Price:       req.Price,
+		Stock:       req.Stock,
+		Location:    req.Location,
+		IsAvailable: true,
+		CreatedAt:   now,
+		UpdatedAt:   now,
+	}
+
+	fmt.Println(req)
+	product, err := u.repository.InsertProduct(ctx, newProduct)
+	if err != nil {
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
+	}
+
+	resp := entity.CreateProductResponse{
+		ID:        cast.ToString(product.ID),
+		CreatedAt: product.CreatedAt,
+	}
+
+	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_ADD_PRODUCT, Data: resp, Error: nil}
 }
 
 func (u *usecase) CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq {

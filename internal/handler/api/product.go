@@ -77,6 +77,19 @@ func (h *handler) GetListProductCustomer(c echo.Context) (err error) {
 	return helper.WriteResponse(c, resp)
 }
 
+func (h *handler) CreateProduct(c echo.Context) (err error) {
+	ctx, cancel := helper.GetContext()
+	defer cancel()
+
+	request := entity.CreateProductRequest{}
+	if err != nil {
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
+
+	resp := h.usecase.CreateProduct(ctx, request)
+	return helper.WriteResponse(c, resp)
+}
+
 func (h *handler) CheckoutProduct(c echo.Context) (err error) {
 	ctx, cancel := helper.GetContext()
 	defer cancel()

@@ -10,6 +10,7 @@ func InitProductRouter(e *echo.Echo, handler api.Handler) {
 	v1 := e.Group("/v1")
 	product := v1.Group("/product", md.TokenValidationMiddleware())
 
+	product.POST("", handler.CreateProduct)
 	product.GET("", handler.GetListProduct)
 	product.GET("/checkout/history", handler.GetListTransaction)
 	product.POST("/checkout", handler.CheckoutProduct)

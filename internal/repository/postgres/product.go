@@ -29,6 +29,35 @@ func (r *repository) GetListProduct(ctx context.Context, req entity.GetListProdu
 	return result, err
 }
 
+func (r *repository) InsertProduct(ctx context.Context, req entity.Product) (result entity.Product, err error) {
+	query := `INSERT INTO products (id, name, sku, category, image_url, price, stock, location, is_available, created_at, updated_at, deleted_at) 
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+		RETURNING *`
+
+	err = r.db.QueryRowxContext(ctx,
+		query,
+		req.ID,
+		req.Name,
+		req.SKU,
+		req.Category,
+		req.ImageURL,
+		req.Price,
+		req.Stock,
+		req.Location,
+		req.IsAvailable,
+		req.CreatedAt,
+		req.UpdatedAt,
+		req.DeletedAt,
+	).StructScan(&result)
+
+	if err != nil {
+		r.logger.Errorf("[Repository][Product][InsertProduct] failed to insert new product, err: %s", err.Error())
+		return
+	}
+
+	return
+}
+
 func (r *repository) GetActiveProductsByIDsWithTx(ctx context.Context, ids []interface{}) ([]entity.Product, error) {
 	var (
 		err          error

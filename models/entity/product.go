@@ -25,12 +25,29 @@ type GetListProductRequest struct {
 	Limit       string `param:"limit" validate:"omitempty,number"`
 	Offset      string `param:"offset" validate:"omitempty,number"`
 	Name        string `param:"name"`
-	IsAvailable string `param:"isAvaliable"`
+	IsAvailable string `param:"isAvailable"`
 	Category    string `param:"category"`
 	SKU         string `param:"sku"`
 	InStock     string `param:"inStock"`
 	Price       string `param:"price"`
 	CreatedAt   string `param:"createdAt"`
+}
+
+type CreateProductRequest struct {
+	ID       string
+	Name     string  `json:"name" validate:"required,min=1,max=30"`
+	SKU      string  `json:"sku" validate:"required,min=1,max=30"`
+	Category string  `json:"category" validate:"required,validateProductCategoryEnum"`
+	ImageURL string  `json:"imageUrl" validate:"required,url"`
+	Notes    string  `json:"notes" validate:"required,min=0,max=200"`
+	Price    float64 `json:"price" validate:"required,min=1"`
+	Stock    int     `json:"stock" validate:"required,min=0,max=100000"`
+	Location string  `json:"location" validate:"required,min=0,max=200"`
+}
+
+type CreateProductResponse struct {
+	ID        string    `json:"id"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 type ProductCheckoutRequest struct {
