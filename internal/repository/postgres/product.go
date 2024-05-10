@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 
@@ -78,9 +79,9 @@ func (r *repository) UpdateProduct(ctx context.Context, req entity.Product) (res
 		req.UpdatedAt,
 		req.ID,
 	).StructScan(&result)
-
+	fmt.Println("PRINT REQUEST REPOSITORY/POSTGRES", req)
 	if err != nil {
-		r.logger.Errorf("[Repository][Product]][UpdateProduct] failed to update product, err: %s", err.Error())
+		r.logger.Errorf("[Repository][Product][UpdateProduct] failed to update product, err: %s", err.Error())
 		return
 	}
 

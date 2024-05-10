@@ -66,7 +66,7 @@ func (u *usecase) UpdateProduct(ctx context.Context, req entity.UpdateProductReq
 	now := time.Now()
 
 	product := entity.Product{
-		ID:          helper.NewULID(),
+		ID:          req.ID,
 		Name:        req.Name,
 		SKU:         req.SKU,
 		Category:    req.Category,
@@ -93,7 +93,7 @@ func (u *usecase) UpdateProduct(ctx context.Context, req entity.UpdateProductReq
 		CreatedAt: product.CreatedAt,
 	}
 
-	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_ADD_PRODUCT, Data: resp, Error: nil}
+	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_UPDATE_PRODUCT, Data: resp, Error: nil}
 }
 func (u *usecase) CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq {
 	_, err := u.repository.FindUserByID(ctx, req.CustomerID)

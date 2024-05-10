@@ -5,9 +5,10 @@ const (
 	SUCCESS = "success"
 	FAILED  = "failed"
 
-	SUCCESS_ADD_PRODUCT   = "Successfully added a product"
-	SUCCESS_LOGIN         = "Successfully logged in"
-	SUCCESS_REGISTER_USER = "User registered successfully"
+	SUCCESS_ADD_PRODUCT    = "Successfully added a product"
+	SUCCESS_UPDATE_PRODUCT = "Successfully updated a product"
+	SUCCESS_LOGIN          = "Successfully logged in"
+	SUCCESS_REGISTER_USER  = "User registered successfully"
 
 	PHONE_NUMBER_REGISTERED = "This phone number is already registered. Please choose another one"
 
