@@ -14,6 +14,7 @@ func InitProductRouter(e *echo.Echo, handler api.Handler) {
 	product.GET("/checkout/history", handler.GetListTransaction)
 	product.POST("", handler.CreateProduct)
 	product.POST("/checkout", handler.CheckoutProduct)
+	product.PUT("/:id", handler.UpdateProduct)
 	product.DELETE("/:id", handler.DeleteProduct)
 
 	// For API No Auth

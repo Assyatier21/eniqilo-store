@@ -52,6 +52,34 @@ type CreateProductResponse struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 
+type UpdateProductRequest struct {
+	ID          string  `param:"id" validate:"required"`
+	Name        string  `json:"name" validate:"required,min=1,max=30"`
+	SKU         string  `json:"sku" validate:"required,min=1,max=30"`
+	Category    string  `json:"category" validate:"required,oneof=Clothing Accessories Footwear Beverages"`
+	Notes       string  `json:"notes" validate:"required,min=1,max=200"`
+	ImageURL    string  `json:"imageUrl" validate:"required,validateImageURL"`
+	Price       float64 `json:"price" validate:"required,min=1"`
+	Stock       int     `json:"stock" validate:"required,min=0,max=100000"`
+	Location    string  `json:"location" validate:"required,min=1,max=200"`
+	IsAvailable *bool   `json:"isAvailable"`
+}
+
+type UpdateProductResponse struct {
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	SKU         string    `json:"sku"`
+	Category    string    `json:"category"`
+	Notes       string    `json:"notes"`
+	ImageURL    string    `json:"imageUrl"`
+	Price       float64   `json:"price"`
+	Stock       int       `json:"stock"`
+	Location    string    `json:"location"`
+	IsAvailable *bool     `json:"isAvailable"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
 type ProductCheckoutRequest struct {
 	ProductID string `json:"productId" validate:"required"`
 	Quantity  int    `json:"quantity" validate:"required,min=1"`
