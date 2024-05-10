@@ -89,15 +89,10 @@ func (r *repository) GetActiveProductsByIDsWithTx(ctx context.Context, ids []int
 		}
 	}
 
-	missingIDs := make([]interface{}, 0)
 	for _, id := range stringIDs {
 		if _, ok := idMap[id]; !ok {
-			missingIDs = append(missingIDs, id)
+			return nil, sql.ErrNoRows
 		}
-	}
-
-	if len(missingIDs) != 0 {
-		return nil, sql.ErrNoRows
 	}
 
 	return results, nil
