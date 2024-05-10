@@ -39,7 +39,7 @@ func (u *usecase) validateTransactionHistoryFilter(req *entity.GetListTransactio
 	validSortByVal := []string{"asc", "desc"}
 
 	if req.CreatedAt != "" && !helper.IsInArray(req.CreatedAt, validSortByVal) {
-		req.CreatedAt = ""
+		req.CreatedAt = "desc"
 	}
 }
 
