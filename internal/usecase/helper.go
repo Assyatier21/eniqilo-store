@@ -38,7 +38,7 @@ func (u *usecase) validateProductFilter(req *entity.GetListProductRequest) {
 func (u *usecase) validateTransactionHistoryFilter(req *entity.GetListTransactionRequest) {
 	validSortByVal := []string{"asc", "desc"}
 
-	if req.CreatedAt != "" && !helper.IsInArray(req.CreatedAt, validSortByVal) {
+	if req.CreatedAt == "" || !helper.IsInArray(req.CreatedAt, validSortByVal) {
 		req.CreatedAt = "desc"
 	}
 }
@@ -56,6 +56,7 @@ func (u *usecase) buildListTransactionResponse(transactions []entity.Transaction
 			ProductDetails: products,
 			Paid:           trx.Paid,
 			Change:         trx.Change,
+			CreatedAt:      trx.CreatedAt,
 		})
 	}
 

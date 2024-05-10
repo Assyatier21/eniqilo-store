@@ -42,7 +42,7 @@ type CreateProductRequest struct {
 	ImageURL    string  `json:"imageUrl" validate:"required,validateImageURL"`
 	Notes       string  `json:"notes" validate:"required,min=1,max=200"`
 	Price       float64 `json:"price" validate:"required,min=1"`
-	Stock       int     `json:"stock" validate:"required,min=0,max=100000"`
+	Stock       *int    `json:"stock" validate:"min=0,max=100000"`
 	Location    string  `json:"location" validate:"required,min=1,max=200"`
 	IsAvailable *bool   `json:"isAvailable"`
 }
@@ -58,10 +58,10 @@ type ProductCheckoutRequest struct {
 }
 
 type CheckoutProductRequest struct {
-	CustomerID              string                   `json:"customerId"`
+	CustomerID              string                   `json:"customerId" validate:"required"`
 	ProductsCheckoutRequest []ProductCheckoutRequest `json:"productDetails" validate:"min=1,dive"`
 	Paid                    float64                  `json:"paid" validate:"required,min=1"`
-	Change                  float64                  `json:"change" validate:"min=0"`
+	Change                  *float64                 `json:"change" validate:"min=0"`
 }
 
 type DeleteProductRequest struct {

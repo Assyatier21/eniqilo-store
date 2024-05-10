@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 
@@ -61,22 +62,42 @@ func (r *repository) InsertProduct(ctx context.Context, req entity.Product) (res
 
 func (r *repository) GetActiveProductsByIDsWithTx(ctx context.Context, ids []interface{}) ([]entity.Product, error) {
 	var (
-		err          error
-		results      []entity.Product
-		placeholders []string
+		err     error
+		results []entity.Product
 	)
 
-	for range ids {
-		placeholders = append(placeholders, "?")
+	stringIDs := make([]string, len(ids))
+	for i, id := range ids {
+		stringIDs[i] = cast.ToString(id)
 	}
 
-	query := `SELECT * FROM products WHERE id IN (` + strings.Join(placeholders, ",") + `) AND is_available = true FOR UPDATE`
+	inClause := "'" + strings.Join(stringIDs, "','") + "'"
+	query := fmt.Sprintf("SELECT * FROM products WHERE id IN (%s) FOR UPDATE", inClause)
 	query = r.db.Rebind(query)
 
-	err = r.db.SelectContext(ctx, &results, query, ids...)
+	err = r.db.SelectContext(ctx, &results, query)
 	if err != nil {
 		r.logger.Errorf("[Repository][Product][GetActiveProductsByIDsWithTx] failed to query, err: %s", err.Error())
 		return nil, err
+	}
+
+	idMap := make(map[string]struct{}, len(results))
+	for _, product := range results {
+		idMap[product.ID] = struct{}{}
+		if !product.IsAvailable {
+			return nil, lib.ErrorProductNotAvailable
+		}
+	}
+
+	missingIDs := make([]interface{}, 0)
+	for _, id := range stringIDs {
+		if _, ok := idMap[id]; !ok {
+			missingIDs = append(missingIDs, id)
+		}
+	}
+
+	if len(missingIDs) != 0 {
+		return nil, sql.ErrNoRows
 	}
 
 	return results, nil
@@ -138,7 +159,7 @@ func (r *repository) CheckoutProducts(ctx context.Context, req entity.CheckoutPr
 		return lib.ErrInsufficientPayment
 	}
 
-	if req.Change != (req.Paid - total) {
+	if *req.Change != (req.Paid - total) {
 		return lib.ErrWrongChange
 	}
 
@@ -148,7 +169,7 @@ func (r *repository) CheckoutProducts(ctx context.Context, req entity.CheckoutPr
 		CustomerID:     req.CustomerID,
 		ProductDetails: cast.ToString(productsJSON),
 		Paid:           req.Paid,
-		Change:         req.Change,
+		Change:         *req.Change,
 	}
 
 	err = r.InsertTransaction(ctx, transaction)

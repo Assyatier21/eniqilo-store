@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/backend-magang/eniqilo-store/models"
@@ -85,11 +84,10 @@ func (h *handler) CreateProduct(c echo.Context) (err error) {
 	request := entity.CreateProductRequest{}
 	err = pkg.BindValidate(c, &request)
 	if err != nil {
-		fmt.Println("ERROR BIND: ", err)
 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
 	}
 
-	if request.IsAvailable == nil {
+	if request.IsAvailable == nil || request.Stock == nil {
 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
 	}
 
@@ -104,6 +102,10 @@ func (h *handler) CheckoutProduct(c echo.Context) (err error) {
 	request := entity.CheckoutProductRequest{}
 	err = pkg.BindValidate(c, &request)
 	if err != nil {
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
+
+	if request.Change == nil {
 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
 	}
 

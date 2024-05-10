@@ -42,7 +42,7 @@ func (u *usecase) CreateProduct(ctx context.Context, req entity.CreateProductReq
 		Notes:       req.Notes,
 		ImageURL:    req.ImageURL,
 		Price:       req.Price,
-		Stock:       req.Stock,
+		Stock:       *req.Stock,
 		Location:    req.Location,
 		IsAvailable: cast.ToBool(req.IsAvailable),
 		CreatedAt:   now,
@@ -74,17 +74,18 @@ func (u *usecase) CheckoutProduct(ctx context.Context, req entity.CheckoutProduc
 		err = u.repository.CheckoutProducts(ctx, req)
 		return err
 	}); err != nil {
-		code := http.StatusInternalServerError
-
 		if errors.Is(err, sql.ErrNoRows) {
-			code = http.StatusNotFound
+			return models.StandardResponseReq{Code: http.StatusNotFound, Message: err.Error()}
 		}
 
-		if errors.Is(err, lib.ErrInsufficientPayment) || errors.Is(err, lib.ErrWrongChange) || errors.Is(err, lib.ErrInsufficientStock) {
-			code = http.StatusBadRequest
+		if errors.Is(err, lib.ErrInsufficientPayment) ||
+			errors.Is(err, lib.ErrWrongChange) ||
+			errors.Is(err, lib.ErrInsufficientStock) ||
+			errors.Is(err, lib.ErrorProductNotAvailable) {
+			return models.StandardResponseReq{Code: http.StatusBadRequest, Message: err.Error()}
 		}
 
-		return models.StandardResponseReq{Code: code, Message: err.Error()}
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: err.Error()}
 	}
 
 	return models.StandardResponseReq{Code: http.StatusOK, Message: constant.SUCCESS, Data: nil}
