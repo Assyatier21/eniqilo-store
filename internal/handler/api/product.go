@@ -83,13 +83,13 @@ func (h *handler) CreateProduct(c echo.Context) (err error) {
 	defer cancel()
 
 	request := entity.CreateProductRequest{}
-	if err != nil {
-		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
-	}
-
 	err = pkg.BindValidate(c, &request)
 	if err != nil {
 		fmt.Println("ERROR BIND: ", err)
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
+
+	if request.IsAvailable == nil {
 		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
 	}
 

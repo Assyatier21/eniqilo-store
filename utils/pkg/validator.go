@@ -22,6 +22,7 @@ func SetupValidator() *validator.Validate {
 
 	v.RegisterValidation("validateCategory", customProductCategoryEnum)
 	v.RegisterValidation("validatePhoneNumber", validatePhoneNumber)
+	v.RegisterValidation("validateImageURL", validateImageURL)
 
 	return v
 }
@@ -64,4 +65,14 @@ func validatePhoneNumber(fl validator.FieldLevel) bool {
 	regex := `^\+\d{1,3}[-\d]*$`
 	match, _ := regexp.MatchString(regex, value)
 	return match
+}
+
+func validateImageURL(fl validator.FieldLevel) bool {
+	value := fl.Field().String()
+
+	pattern := `^https?://(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:/[^/?#]+)+\.(?:jpg|jpeg|png|gif|bmp)(?:\?[^\s]*)?$`
+
+	re := regexp.MustCompile(pattern)
+
+	return re.MatchString(value)
 }
