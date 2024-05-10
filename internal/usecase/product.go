@@ -62,6 +62,39 @@ func (u *usecase) CreateProduct(ctx context.Context, req entity.CreateProductReq
 	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_ADD_PRODUCT, Data: resp, Error: nil}
 }
 
+func (u *usecase) UpdateProduct(ctx context.Context, req entity.UpdateProductRequest) models.StandardResponseReq {
+	now := time.Now()
+
+	product := entity.Product{
+		ID:          req.ID,
+		Name:        req.Name,
+		SKU:         req.SKU,
+		Category:    req.Category,
+		Notes:       req.Notes,
+		ImageURL:    req.ImageURL,
+		Price:       req.Price,
+		Stock:       req.Stock,
+		Location:    req.Location,
+		IsAvailable: cast.ToBool(req.IsAvailable),
+		CreatedAt:   now,
+		UpdatedAt:   now,
+	}
+
+	_, err := u.repository.UpdateProduct(ctx, product)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.StandardResponseReq{Code: http.StatusNotFound, Message: constant.FAILED_PRODUCT_NOT_FOUND, Error: err}
+		}
+		return models.StandardResponseReq{Code: http.StatusInternalServerError, Message: constant.FAILED, Error: err}
+	}
+
+	resp := entity.UpdateProductResponse{
+		ID:        cast.ToString(product.ID),
+		CreatedAt: product.CreatedAt,
+	}
+
+	return models.StandardResponseReq{Code: http.StatusCreated, Message: constant.SUCCESS_UPDATE_PRODUCT, Data: resp, Error: nil}
+}
 func (u *usecase) CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq {
 	_, err := u.repository.FindUserByID(ctx, req.CustomerID)
 	if err != nil {

@@ -16,6 +16,7 @@ type RepositoryHandler interface {
 	GetListCustomer(ctx context.Context, req entity.GetListUserRequest) ([]entity.GetListCustomerResponse, error)
 
 	InsertProduct(ctx context.Context, req entity.Product) (result entity.Product, err error)
+	UpdateProduct(ctx context.Context, req entity.Product) (result entity.Product, err error)
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) ([]entity.Product, error)
 	GetActiveProductsByIDsWithTx(ctx context.Context, ids []interface{}) ([]entity.Product, error)
 	GetActiveProductByID(ctx context.Context, id int) (entity.Product, error)

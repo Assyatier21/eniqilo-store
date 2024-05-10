@@ -95,6 +95,26 @@ func (h *handler) CreateProduct(c echo.Context) (err error) {
 	return helper.WriteResponse(c, resp)
 }
 
+func (h *handler) UpdateProduct(c echo.Context) (err error) {
+	ctx, cancel := helper.GetContext()
+	defer cancel()
+
+	request := entity.UpdateProductRequest{}
+	fmt.Println("PRINT REQUEST HANDLER/API", request)
+	err = pkg.BindValidate(c, &request)
+	if err != nil {
+		fmt.Println("ERROR BIND: ", err)
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
+
+	if request.IsAvailable == nil {
+		return helper.WriteResponse(c, models.StandardResponseReq{Code: http.StatusBadRequest, Error: err})
+	}
+
+	resp := h.usecase.UpdateProduct(ctx, request)
+	return helper.WriteResponse(c, resp)
+}
+
 func (h *handler) CheckoutProduct(c echo.Context) (err error) {
 	ctx, cancel := helper.GetContext()
 	defer cancel()

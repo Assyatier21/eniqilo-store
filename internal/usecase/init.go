@@ -18,6 +18,7 @@ type UsecaseHandler interface {
 	GetListCustomer(ctx context.Context, req entity.GetListUserRequest) models.StandardResponseReq
 
 	CreateProduct(ctx context.Context, req entity.CreateProductRequest) models.StandardResponseReq
+	UpdateProduct(ctx context.Context, req entity.UpdateProductRequest) models.StandardResponseReq
 	GetListProduct(ctx context.Context, req entity.GetListProductRequest) models.StandardResponseReq
 	CheckoutProduct(ctx context.Context, req entity.CheckoutProductRequest) models.StandardResponseReq
 	DeleteProduct(ctx context.Context, req entity.DeleteProductRequest) models.StandardResponseReq
