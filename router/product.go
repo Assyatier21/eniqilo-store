@@ -16,6 +16,6 @@ func InitProductRouter(e *echo.Echo, handler api.Handler) {
 	product.DELETE("/:id", handler.DeleteProduct)
 
 	// For API No Auth
-	// productCustomer := v1.Group("/product/customer")
-
+	productCustomer := v1.Group("/product/customer")
+	productCustomer.GET("", handler.GetListProductCustomer)
 }
