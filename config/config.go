@@ -25,13 +25,14 @@ type Config struct {
 func Load() (conf Config) {
 	viper.SetConfigFile("env")
 	viper.SetConfigFile("./.env")
+	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
-		panic(err)
+		return
 	}
 
 	if err := viper.Unmarshal(&conf); err != nil {
-		panic(err)
+		return
 	}
 
 	return

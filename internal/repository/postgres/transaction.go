@@ -2,7 +2,6 @@ package postgres
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/backend-magang/eniqilo-store/models/entity"
@@ -38,8 +37,6 @@ func (r *repository) GetListTransaction(ctx context.Context, req entity.GetListT
 
 	query, args := buildQueryGetListTransactions(req)
 	query = r.db.Rebind(query)
-
-	fmt.Println(query)
 
 	err := r.db.SelectContext(ctx, &result, query, args...)
 	if err != nil {

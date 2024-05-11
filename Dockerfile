@@ -1,13 +1,19 @@
-FROM golang:1.22.1-alpine AS builder
-
-RUN mkdir /app
-
-ADD . /app
+FROM golang:1.19-alpine AS builder
 
 WORKDIR /app
 
-RUN go build -o /app_bin ./cmd/main.go
+COPY . . 
+
+ENV GOARCH=amd64
+ENV GOOS=linux 
+
+RUN env GOARCH=amd64 GOOS=linux go build -o main ./cmd/main.go
+
+FROM alpine
+WORKDIR /app
+
+COPY --from=builder /app/main .
 
 EXPOSE 8080
 
-CMD ["/app_bin"]
+CMD ["/app/main"]
