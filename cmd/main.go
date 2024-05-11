@@ -36,6 +36,5 @@ func main() {
 	router.InitRouter(server, handler)
 	middleware.InitMiddlewares(server)
 
-	// host := fmt.Sprintf("%s:8080", cfg.AppHost)
 	server.Start(":8080")
 }

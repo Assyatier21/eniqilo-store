@@ -2,9 +2,9 @@ package config
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/backend-magang/eniqilo-store/utils/pkg"
-	"github.com/spf13/viper"
 )
 
 type Config struct {
@@ -23,16 +23,18 @@ type Config struct {
 }
 
 func Load() (conf Config) {
-	viper.SetConfigFile("env")
-	viper.SetConfigFile("./.env")
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err != nil {
-		return
-	}
-
-	if err := viper.Unmarshal(&conf); err != nil {
-		return
+	conf = Config{
+		AppHost:    os.Getenv("APP_HOST"),
+		AppPort:    os.Getenv("APP_PORT"),
+		DBName:     os.Getenv("DB_NAME"),
+		DBPort:     os.Getenv("DB_PORT"),
+		DBHost:     os.Getenv("DB_HOST"),
+		DBUsername: os.Getenv("DB_USERNAME"),
+		DBPassword: os.Getenv("DB_PASSWORD"),
+		DBParams:   os.Getenv("DB_PARAMS"),
+		DBSchema:   "public",
+		JWTSecret:  os.Getenv("JWT_SECRET"),
+		BCryptSalt: os.Getenv("BCRYPT_SALT"),
 	}
 
 	return
