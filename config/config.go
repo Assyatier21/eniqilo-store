@@ -2,9 +2,11 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/backend-magang/eniqilo-store/utils/pkg"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -23,6 +25,11 @@ type Config struct {
 }
 
 func Load() (conf Config) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Error loading .env file, err: ", err.Error())
+	}
+
 	conf = Config{
 		AppHost:    os.Getenv("APP_HOST"),
 		AppPort:    os.Getenv("APP_PORT"),

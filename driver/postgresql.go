@@ -25,9 +25,6 @@ func InitPostgres(config cf.Config) *sqlx.DB {
 		return nil
 	}
 
-	db.SetMaxOpenConns(30)
-	db.SetMaxIdleConns(10)
-
 	log.Println("[Database] successfully connected")
 	return db
 }
